@@ -1,0 +1,114 @@
+import React from 'react';
+import { Check, Star, Calculator, FileText, TrendingUp, BarChart, Share2 } from 'lucide-react';
+import { ServicePack } from '../types';
+
+interface MarketingPageProps {
+  onOrder: (pack: ServicePack) => void;
+  packs: ServicePack[];
+}
+
+export default function MarketingPage({ onOrder, packs }: MarketingPageProps) {
+  return (
+    <div className="pt-24 pb-20 bg-slate-50 min-h-screen">
+      
+      {/* Header Specific */}
+      <div className="bg-white pb-16 pt-10 mb-16 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span className="inline-block py-1 px-3 rounded-full bg-purple-50 text-purple-600 text-xs font-bold uppercase tracking-wider mb-4">
+               Marketing Digital
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">
+                Marketing digital & <span className="text-elvis-blue">visibilité en ligne</span>
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-8">
+                Boostez votre trafic, vos demandes de devis et vos ventes grâce à nos services SEO, réseaux sociaux et campagnes publicitaires.
+                <br />
+                <span className="text-red-500 font-medium text-sm block mt-2">🎯 Objectif : plus de visibilité, plus de clients, sans perdre de temps.</span>
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button className="flex items-center gap-2 bg-elvis-blue hover:bg-blue-600 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <Calculator size={20} />
+                    Calculer mon prix
+                </button>
+                <button 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView()}
+                  className="flex items-center gap-2 bg-white hover:bg-gray-50 text-slate-800 border border-slate-200 px-8 py-3.5 rounded-full font-bold transition-all shadow-sm hover:shadow-md"
+                >
+                    <FileText size={20} />
+                    Demander un devis
+                </button>
+            </div>
+        </div>
+      </div>
+
+      {/* Packs Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {packs.map((pack) => (
+                <div key={pack.id} className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col relative group">
+                    
+                    {/* Mockup Container with Gradient */}
+                    <div className={`h-56 relative overflow-hidden p-6 flex items-center justify-center ${pack.isPopular ? 'bg-gradient-to-br from-purple-600 to-indigo-600' : 'bg-gradient-to-br from-purple-50 to-indigo-100'}`}>
+                         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                         <img 
+                            src={pack.image} 
+                            alt={pack.title}
+                            className="relative z-10 w-full h-full object-cover rounded-xl shadow-2xl transform group-hover:scale-105 group-hover:-rotate-1 transition-transform duration-500"
+                         />
+                         {pack.isPopular && (
+                            <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold border border-white/30">
+                                Best Seller
+                            </div>
+                         )}
+                    </div>
+
+                    <div className="p-8 flex-1 flex flex-col text-center">
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Marketing Digital</span>
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">{pack.title}</h3>
+                        <div className="flex items-center justify-center gap-1 mb-6">
+                            <span className="text-3xl font-extrabold text-elvis-blue">
+                                {pack.price.toLocaleString('fr-FR')} €
+                            </span>
+                            {pack.period && <span className="text-slate-400 text-sm font-medium">{pack.period}</span>}
+                        </div>
+
+                        <p className="text-slate-600 text-sm leading-relaxed mb-6 min-h-[60px]">
+                            {pack.description}
+                        </p>
+
+                        <div className="border-t border-slate-100 pt-6 mb-8 flex-1">
+                             <ul className="space-y-3 text-left">
+                                {pack.features.map((feature, idx) => (
+                                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-700">
+                                        <Check size={16} className="text-green-500 mt-0.5 shrink-0" strokeWidth={3} />
+                                        <span>{feature}</span>
+                                    </li>
+                                ))}
+                             </ul>
+                        </div>
+
+                        <button 
+                            onClick={() => onOrder(pack)}
+                            className="w-full bg-elvis-blue hover:bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1"
+                        >
+                            Commander
+                        </button>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        {/* Footer Info */}
+        <div className="mt-16 text-center text-sm text-slate-500 max-w-4xl mx-auto space-y-2">
+            <p className="flex items-center justify-center gap-2">
+                🚀 Tous nos services marketing sont pensés pour les indépendants, TPE et PME qui veulent des résultats concrets : appels, leads, rendez-vous, ventes.
+            </p>
+            <p className="flex items-center justify-center gap-2">
+                🔒 Vous restez propriétaire de vos comptes pub et de vos données. Reporting clair, aucune surprise.
+            </p>
+        </div>
+      </div>
+    </div>
+  );
+}
